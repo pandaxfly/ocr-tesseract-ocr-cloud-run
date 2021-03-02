@@ -1,0 +1,26 @@
+{
+  "name": "helloworld",
+  "description": "Simple hello world sample in Node",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "GOOGLE_APPLICATION_CREDENTIALS=/Users/pandaxfly/Dropbox/DataScience/OCR-PROJECT/tesseract-ocr/dev-auth.json npx nodemon --inspect index.js"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "author": "Google LLC",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@google-cloud/vision": "^2.3.1",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "nodemonConfig": {
+    "verbose": true
+  }
+}
