@@ -26,7 +26,7 @@ app.post('/api/upload', (req, res) => {
   
   const myPromise = new Promise ((resolve, reject) => {
     // Set response headers
-    res.set('Access-Control-Allow-Origin', 'https://dev.panyuehao.page');
+    res.set('Access-Control-Allow-Origin', 'https://api.yuehao.dev');
     res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.set('Access-Control-Request-Headers', 'Content-Type');
     
