@@ -13,17 +13,15 @@ app.post('/api/upload', (req, res) => {
   // Parses reqest body to image buffer
   const form = formidable({ multiples: false });
 
-  let fileBuffer = null;
-
+  let fileBuffer = [];
   form.onPart = (part) => {
     part.on('data', (buffer) => {
-      console.log(part.mime)
-      if (part.mime) {
-        fileBuffer = Buffer.from(buffer);
+      if (part.mime === 'image/jpeg') {
+        fileBuffer.push(Buffer.from(buffer));
       }
     });
   };
-  
+
   const myPromise = new Promise ((resolve, reject) => {
     // Set response headers
     res.set('Access-Control-Allow-Origin', 'https://api.yuehao.dev');
@@ -31,22 +29,22 @@ app.post('/api/upload', (req, res) => {
     res.set('Access-Control-Request-Headers', 'Content-Type');
     
     const returnedReqestBody = {
-      image: { content: null },
+      image: { content: null},
       // All features can be find here
       // https://googleapis.dev/nodejs/vision/latest/google.cloud.vision.v1.Feature.html
       // features: [
       //   {type: 'DOCUMENT_TEXT_DETECTION'}
       // ],
     };
-    
+
     form.parse(req, (err) => {
       // Set promise state to Reject
       if (err)  reject(err);
-        
-      // Construct request body for Vision API
-      returnedReqestBody.image.content = fileBuffer;
+
+      returnedReqestBody.image.content = Buffer.concat(fileBuffer);
       console.log('returned request body:: ', returnedReqestBody);
     });
+
     resolve(returnedReqestBody);
   })
   .then((visionRequestBody) => {
@@ -56,7 +54,7 @@ app.post('/api/upload', (req, res) => {
   .then(response => {
     // Return success
     console.log('VISION API SUCCESS');
-    console.log(response[0].fullTextAnnotation);
+    //console.log(response[0].fullTextAnnotation);
     res.status(200).send(response[0].fullTextAnnotation);
   })
   .catch(error => {
